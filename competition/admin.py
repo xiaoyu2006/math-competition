@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models import Competition, Record, Problem, Answer
 
 # Register your models here.
-admin.register(Competition)
-admin.register(Record)
-admin.register(Problem)
-admin.register(Answer)
+admin.site.register(Competition)
+admin.site.register(Record)
+admin.site.register(Problem)
+admin.site.register(Answer)
