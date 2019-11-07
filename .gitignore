@@ -1,2 +1,4 @@
 __pycache__/
 .pyc
+competition/__pycache__/*
+competition/migrations/__pycache__/*
