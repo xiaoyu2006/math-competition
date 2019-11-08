@@ -3,3 +3,4 @@ __pycache__/
 competition/__pycache__/
 competition/migrations/__pycache__/
 math_competition/__pycache__/
+.DS_Store
