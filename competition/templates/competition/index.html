@@ -7,25 +7,27 @@
 
 {% block content %}
 <h1>Welcome to Math Competition!</h1>
-<h2 class="sub-header">All competitions:</h2>
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Holder</th>
-                <th>Deadline</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for c in comps %}
-            <tr>
-                <td>{{ c.title }}</td>
-                <td>{{ c.auther.username }}</td>
-                <td>{{ c.end_time|date:'M d, Y H:i' }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="container">
+    <h2 class="sub-header">All competitions:</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Holder</th>
+                    <th>Deadline</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in comps %}
+                <tr>
+                    <td>{{ c.title }}</td>
+                    <td>{{ c.auther.username }}</td>
+                    <td>{{ c.end_time|date:'M d, Y H:i' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock content %}
