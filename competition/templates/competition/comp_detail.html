@@ -1,0 +1,30 @@
+{% extends "competition/base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}
+ - {{ comp.title }}
+{% endblock title %}
+
+{% block content %}
+<h1 class="header">{{ comp.title }}</h1>
+<h4 class="sub-header">
+    {{ comp.description|linebreaks }}
+</h4>
+<div class="container">
+    <h5>Problems:</h5>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <th>Title</th>
+            </thead>
+            <tbody>
+                {% for prob in probs %}
+                <tr>
+                    <td>{{ prob.title }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

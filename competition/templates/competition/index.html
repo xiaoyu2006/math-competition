@@ -23,7 +23,7 @@
             <tbody>
                 {% for c in comps %}
                 <tr>
-                    <td>{{ c.title }}</td>
+                    <td><a href="{% url 'comp_detail' c.id %}">{{ c.title }}</a></td>
                     <td>{{ c.auther.username }}</td>
                     <td>
                         {% if c.start_time > now %}

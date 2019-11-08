@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from datetime import datetime
@@ -52,3 +52,11 @@ def log_in(request):
         'form': form,
     }
     return render(request, 'competition/login.html', context)
+
+def comp_detail(request, id):
+    comp_obj = get_object_or_404(Competition, id=id)
+    context = {
+        'comp': comp_obj,
+        'probs': comp_obj.problem_set.all()
+    }
+    return render(request, 'competition/comp_detail.html', context)
