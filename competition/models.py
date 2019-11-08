@@ -7,7 +7,7 @@ class Competition(models.Model):
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
     start_time = models.DateTimeField()
-    lasts = models.TimeField(blank=True)
+    end_time = models.DateTimeField()
 
 # One PROBLEM of a COMPETITION
 class Problem(models.Model):
