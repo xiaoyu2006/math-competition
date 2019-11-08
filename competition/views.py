@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from datetime import datetime
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -10,6 +11,7 @@ from .models import Answer, Competition, Record, User, Problem
 def index(request):
     context = {
         'comps': Competition.objects.order_by('-end_time'),
+        'now': datetime.now(),
     }
     return render(request, 'competition/index.html', context)
 
@@ -28,7 +30,7 @@ def register(request):
             login(request, auth_user)
             return HttpResponseRedirect(reverse('index'))
     context = {
-        'form': form
+        'form': form,
     }
     return render(request, 'competition/register.html', context)
 
@@ -47,6 +49,6 @@ def log_in(request):
                 login(request, user)
                 return HttpResponseRedirect(reverse('index'))
     context = {
-        'form': form
+        'form': form,
     }
     return render(request, 'competition/login.html', context)

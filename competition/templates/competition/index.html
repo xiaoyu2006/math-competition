@@ -15,6 +15,8 @@
                 <tr>
                     <th>Name</th>
                     <th>Holder</th>
+                    <th>State</th>
+                    <th>Start Time</th>
                     <th>Deadline</th>
                 </tr>
             </thead>
@@ -23,6 +25,16 @@
                 <tr>
                     <td>{{ c.title }}</td>
                     <td>{{ c.auther.username }}</td>
+                    <td>
+                        {% if c.start_time > now %}
+                            Upcoming
+                        {% elif c.end_time < now %}
+                            Finished
+                        {% else %}
+                            Running
+                        {% endif %}
+                    </td>
+                    <td>{{ c.start_time|date:'M d, Y H:i' }}</td>
                     <td>{{ c.end_time|date:'M d, Y H:i' }}</td>
                 </tr>
                 {% endfor %}
