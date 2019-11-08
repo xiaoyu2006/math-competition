@@ -16,6 +16,7 @@
         <thead>
             <tr>
                 <th>Name</th>
+                <th>Holder</th>
                 <th>Deadline</th>
             </tr>
         </thead>
@@ -23,6 +24,7 @@
             {% for c in comps %}
             <tr>
                 <td>{{ c.title }}</td>
+                <td>{{ c.auther.username }}</td>
                 <td>{{ c.end_time|date:'M d, Y H:i' }}</td>
             </tr>
             {% endfor %}
