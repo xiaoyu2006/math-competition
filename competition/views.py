@@ -73,46 +73,52 @@ def comp_detail(request, comp_id):
         'registered': len(
             request.user.record_set.all().filter(competition__id=comp_id)
         ) == 1,
+        'now': datetime.now(),
     }
     return render(request, 'competition/comp_detail.html', context)
 
 @login_required
 def prob_detail(request, prob_id):
     prob_obj = get_object_or_404(Problem, id=prob_id)
-    rec_obj = Record.objects.filter(
-        user__id=request.user.id,
-        competition__id=prob_obj.competition.id,
-    ).all()[0]
-    ans_obj = Answer.objects.filter(
-        record__id=rec_obj.id,
-        problem__id=prob_obj.id,
-    ).all()[0]
-    if request.method != 'POST':
-        form = AnswerForm()
-        form.answer = ans_obj.user_answer
-    else:
-        form = AnswerForm(data=request.POST)
-        if form.is_valid():
-            if ans_obj.user_answer != form.cleaned_data['answer']:
-                if form.cleaned_data['answer'] == prob_obj.right_answer:
-                    rec_obj.score += prob_obj.score
-                    ans_obj.user_answer = form.cleaned_data['answer']
-                    ans_obj.save()
-                    rec_obj.save()
-                else:
-                    if ans_obj.user_answer == prob_obj.right_answer:
-                        rec_obj.score -= prob_obj.score
-                        ans_obj.user_answer = form.cleaned_data['answer']
-                        ans_obj.save()
-                        rec_obj.save()
+    is_registered = len(
+            request.user.record_set.all().filter(competition__id=prob_obj.competition.id)
+        ) == 1
     context = {
         'comp': prob_obj.competition,
         'prob': prob_obj,
-        'registered': len(
-            request.user.record_set.all().filter(competition__id=prob_obj.competition.id)
-        ) == 1,
-        'form': form,
+        'registered': is_registered,
+        'now': datetime.now(),
     }
+    if is_registered:
+        rec_obj = Record.objects.filter(
+            user__id=request.user.id,
+            competition__id=prob_obj.competition.id,
+        ).all()[0]
+        ans_obj = Answer.objects.filter(
+            record__id=rec_obj.id,
+            problem__id=prob_obj.id,
+        ).all()[0]
+    if is_registered:
+        if request.method != 'POST':
+            form = AnswerForm(
+                initial={'answer': ans_obj.user_answer}
+            )
+        else:
+            form = AnswerForm(data=request.POST)
+            if form.is_valid():
+                if ans_obj.user_answer != form.cleaned_data['answer']:
+                    if form.cleaned_data['answer'] == prob_obj.right_answer:
+                        rec_obj.score += prob_obj.score
+                        ans_obj.user_answer = form.cleaned_data['answer']
+                        ans_obj.save()
+                        rec_obj.save()
+                    else:
+                        if ans_obj.user_answer == prob_obj.right_answer:
+                            rec_obj.score -= prob_obj.score
+                            ans_obj.user_answer = form.cleaned_data['answer']
+                            ans_obj.save()
+                            rec_obj.save()
+        context['form'] = form
     return render(request, 'competition/prob_detail.html', context)
 
 @login_required

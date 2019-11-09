@@ -26,8 +26,14 @@
             </tbody>
         </table>
     </div>
+    {% if comp.start_time < now %}
+    <p>Please register after the competition starts.</now>
+    {% elif comp.end_time > now %}
+    <p>The competition is ended.</p>
+    {% else %}
     {% if not registered %}
     <a class="btn btn-primary" href="{% url 'register_comp' comp.id %}">Register</a>
+    {% endif %}
     {% endif %}
 </div>
 {% endblock content %}

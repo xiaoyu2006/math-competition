@@ -6,6 +6,11 @@
 {% endblock title %}
 
 {% block content %}
+{% if comp.start_time < now %}
+<p>Please register after the competition starts.</now>
+{% elif comp.end_time > now %}
+<p>The competition is ended.</p>
+{% else %}
 {% if registered %}
 <h1 class="header"><a href="{% url 'comp_detail' comp.id %}">{{ comp.title }}</a></h1>
 <div class="container">
@@ -24,4 +29,6 @@
 <h3 class="header">Please register to take part in this competition</h1>
 <a class="btn btn-primary" href="{% url 'register_comp' comp.id %}">Register</a>
 {% endif %}
+{% endif %}
+
 {% endblock content %}
