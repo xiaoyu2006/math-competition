@@ -200,7 +200,7 @@ def new_prob(request, comp_id):
                     right_answer=form.cleaned_data['answer'],
                 )
                 new_prob.save()
-                return HttpResponseRedirect(reverse('prob_detail', args=[new_prob.id]))
+                return HttpResponseRedirect(reverse('comp_detail', args=[comp_obj.id]))
         else:
             return HttpResponseForbidden(
                 "Sorry but you have no access to add a problem into this competition."
