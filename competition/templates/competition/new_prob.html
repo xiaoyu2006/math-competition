@@ -1,0 +1,17 @@
+{% extends "competition/base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}
+ - {{ comp.title }} - New problem
+{% endblock title %}
+
+{% block content %}
+<h3>Add a problem into {{ comp.title }}</h3>
+<form method="POST" action="{% url 'new_prob' comp.id %}" class="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+        <button name="submit" class="btn btn-primary">Submit</button>
+    {% endbuttons %}
+</form>
+{% endblock content %}

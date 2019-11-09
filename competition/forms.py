@@ -10,3 +10,9 @@ class CompForm(forms.Form):
     description = forms.CharField(label='Description', max_length=1000)
     start_time = forms.DateTimeField(label='Start time', initial=timezone.now())
     end_time = forms.DateTimeField(label='Deadline', initial=timezone.now())
+
+class ProbForm(forms.Form):
+    title = forms.CharField(label='Title', max_length=100)
+    description = forms.CharField(label='Description', max_length=1000)
+    answer = forms.CharField(label='Answer', max_length=100)
+    score = forms.FloatField(label_suffix='Score')

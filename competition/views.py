@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.urls import reverse
 from django.utils import timezone
 
@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Answer, Competition, Record, User, Problem
 
-from .forms import AnswerForm, CompForm
+from .forms import AnswerForm, CompForm, ProbForm
 
 
 
@@ -185,4 +185,29 @@ def new_comp(request):
 
 @login_required
 def new_prob(request, comp_id):
-    pass
+    comp_obj = get_object_or_404(Competition, comp_id)
+    if request.method != 'POST':
+        form = ProbForm()
+    else:
+        if request.user.id == comp_obj.user.id:
+            form = ProbForm(data=request.POST)
+            if form.is_valid():
+                new_prob = Problem.objects.create(
+                    competition=comp_obj,
+                    title=form.cleaned_data['title'],
+                    description=form.cleaned_data['description'],
+                    score=form.cleaned_data['score'],
+                    right_answer=form.cleaned_data['answer'],
+                )
+                new_prob.save()
+                return HttpResponseRedirect(reverse('prob_detail', args=[new_prob.id]))
+        else:
+            return HttpResponseForbidden(
+                "Sorry but you have no access to add a problem into this competition."
+            )
+    context = {
+        'comp': comp_obj,
+        'user': request.user,
+        'form': form,
+    }
+    return render(request, 'competition/new_prob.html', context)

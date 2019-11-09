@@ -36,10 +36,10 @@
     </div>
 </div>
 {% if comp.start_time > now %}
-    {% if comp.author.id != user.id %}
+    {% if comp.auther.id != user.id %}
         <p>Please register after the competition starts.</p>
     {% else %}
-        <a href="{% url 'new_prob' comp.id %}">Add a problem</a>
+        <a href="{% url 'new_prob' comp.id %}" class="btn btn-primary">Add a problem</a>
     {% endif %}
 {% elif comp.end_time < now %}
     {% if not registered %}
