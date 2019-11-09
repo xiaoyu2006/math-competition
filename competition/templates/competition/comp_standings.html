@@ -1,0 +1,36 @@
+{% extends "competition/base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}
+ - {{ comp.title }} - Standings
+{% endblock title %}
+
+{% block content %}
+{% if comp.end_time < now %}
+    <h1 class="header"><a href="{% url 'comp_detail' comp.id %}">{{ comp.title }}</a></h1>
+    <h4 class="sub-header">
+        {{ comp.description|linebreaks }}
+    </h4>
+    <div class="container">
+        <h1 class="header">Standings:</h1>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <th>Username</th>
+                    <th>Score</th>
+                </thead>
+                <tbody>
+                    {% for rec in records %}
+                        <tr>
+                            <td>{{ rec.user.username }}</td>
+                            <td>{{ rec.score }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% else %}
+    <h1>Sorry, but standing is not avliable now.</h1>
+{% endif %}
+{% endblock content %}

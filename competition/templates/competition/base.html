@@ -27,6 +27,7 @@
                 <div id="navbar" class="navbar-collapse collapse ">
                     <ul class="nav navbar-nav">
                         <li><a href="{% url 'index' %}">Home</a></li>
+                        {% block nav %}{% endblock nav %}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if user.is_authenticated %}

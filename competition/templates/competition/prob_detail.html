@@ -5,6 +5,12 @@
  - {{ prob.title }}
 {% endblock title %}
 
+{% block nav %}
+{% if comp.end_time < now %}
+<li><a href="{% url 'standings' comp.id %}">Standings</a></li>
+{% endif %}
+{% endblock nav %}
+
 {% block content %}
 {% if comp.start_time > now %}
     <p>Please register after the competition starts.</now>

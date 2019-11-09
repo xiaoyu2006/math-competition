@@ -6,7 +6,9 @@ from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
+
 from .models import Answer, Competition, Record, User, Problem
+
 from .forms import AnswerForm
 
 
@@ -147,3 +149,14 @@ def register_comp(request, comp_id):
                 user_answer=''
             )
     return HttpResponseRedirect(reverse('comp_detail', args=[comp_id]))
+
+@login_required
+def standings(request, comp_id):
+    comp_obj = get_object_or_404(Competition, id=comp_id)
+    records = comp_obj.record_set.order_by('score')
+    context = {
+        'records': records,
+        'comp': comp_obj,
+        'now': timezone.now(),
+    }
+    return render(request, 'competition/comp_standings.html', context)
