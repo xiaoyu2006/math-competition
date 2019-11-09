@@ -71,3 +71,22 @@ def prob_detail(request, prob_id):
         'prob': prob_obj,
     }
     return render(request, 'competition/prob_detail.html', context)
+
+@login_required
+def register_comp(request, comp_id):
+    user = request.user
+    q_set = user.record_set.all().filter(competition__id=comp_id)
+    if len(q_set) == 0:
+        comp = Competition.objects.get(id=comp_id)
+        record = Record.objects.create(
+            user=user,
+            competition=comp,
+            score=0
+        )
+        for problem in comp.problem_set.all():
+            Answer.objects.create(
+                record=record,
+                problem=problem,
+                user_answer=''
+            )
+    return HttpResponseRedirect(reverse('comp_detail', args=[comp_id]))
