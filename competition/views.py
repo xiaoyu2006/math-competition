@@ -154,7 +154,7 @@ def register_comp(request, comp_id):
 @login_required
 def standings(request, comp_id):
     comp_obj = get_object_or_404(Competition, id=comp_id)
-    records = comp_obj.record_set.order_by('score')
+    records = comp_obj.record_set.order_by('-score')
     context = {
         'records': records,
         'comp': comp_obj,
