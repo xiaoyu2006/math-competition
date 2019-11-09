@@ -1,0 +1,14 @@
+{% extends "competition/base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}
+ - {{ prob.title }}
+{% endblock title %}
+
+{% block content %}
+<h1 class="header"><a href="{% url 'comp_detail' comp.id %}">{{ comp.title }}</a></h1>
+<div class="container">
+    <h1>{{ prob.title }}</h1>
+    <p>{{ prob.description|linebreaks }}</p>
+</div>
+{% endblock content %}

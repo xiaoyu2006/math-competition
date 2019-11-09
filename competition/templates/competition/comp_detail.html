@@ -8,7 +8,7 @@
 {% block content %}
 <h1 class="header">{{ comp.title }}</h1>
 <h4 class="sub-header">
-    {{ comp.description|linebreaks }}
+    {{ comp.title|linebreaks }}
 </h4>
 <div class="container">
     <h5>Problems:</h5>
@@ -20,7 +20,7 @@
             <tbody>
                 {% for prob in probs %}
                 <tr>
-                    <td>{{ prob.title }}</td>
+                    <td><a href="{% url 'prob_detail' prob.id %}">{{ prob.title }}</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

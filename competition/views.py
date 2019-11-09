@@ -5,6 +5,7 @@ from datetime import datetime
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.decorators import login_required
 from .models import Answer, Competition, Record, User, Problem
 
 # Create your views here.
@@ -53,10 +54,20 @@ def log_in(request):
     }
     return render(request, 'competition/login.html', context)
 
-def comp_detail(request, id):
-    comp_obj = get_object_or_404(Competition, id=id)
+@login_required
+def comp_detail(request, comp_id):
+    comp_obj = get_object_or_404(Competition, id=comp_id)
     context = {
         'comp': comp_obj,
         'probs': comp_obj.problem_set.all()
     }
     return render(request, 'competition/comp_detail.html', context)
+
+@login_required
+def prob_detail(request, prob_id):
+    prob_obj = get_object_or_404(Problem, id=prob_id)
+    context = {
+        'comp': prob_obj.competition,
+        'prob': prob_obj,
+    }
+    return render(request, 'competition/prob_detail.html', context)
