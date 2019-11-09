@@ -6,9 +6,14 @@
 {% endblock title %}
 
 {% block content %}
+{% if registered %}
 <h1 class="header"><a href="{% url 'comp_detail' comp.id %}">{{ comp.title }}</a></h1>
 <div class="container">
     <h1>{{ prob.title }}</h1>
     <p>{{ prob.description|linebreaks }}</p>
 </div>
+{% else %}
+<h3 class="header">Please register to take part in this competition</h1>
+<a class="btn btn-primary" href="{% url 'register_comp' comp.id %}">Register</a>
+{% endif %}
 {% endblock content %}

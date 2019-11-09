@@ -72,6 +72,9 @@ def prob_detail(request, prob_id):
     context = {
         'comp': prob_obj.competition,
         'prob': prob_obj,
+        'registered': len(
+            request.user.record_set.all().filter(competition__id=comp_id)
+        ) == 1,
     }
     return render(request, 'competition/prob_detail.html', context)
 
