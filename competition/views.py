@@ -7,14 +7,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .models import Answer, Competition, Record, User, Problem
+from .forms import AnswerForm
 
-# Create your views here.
-def index(request):
-    context = {
-        'comps': Competition.objects.order_by('-end_time'),
-        'now': datetime.now(),
-    }
-    return render(request, 'competition/index.html', context)
+
+
+# Views for user manaegment.
 
 def register(request):
     if request.method != 'POST':
@@ -54,6 +51,19 @@ def log_in(request):
     }
     return render(request, 'competition/login.html', context)
 
+
+
+
+
+# Views for other pages:
+
+def index(request):
+    context = {
+        'comps': Competition.objects.order_by('-end_time'),
+        'now': datetime.now(),
+    }
+    return render(request, 'competition/index.html', context)
+
 @login_required
 def comp_detail(request, comp_id):
     comp_obj = get_object_or_404(Competition, id=comp_id)
@@ -69,12 +79,39 @@ def comp_detail(request, comp_id):
 @login_required
 def prob_detail(request, prob_id):
     prob_obj = get_object_or_404(Problem, id=prob_id)
+    rec_obj = Record.objects.filter(
+        user__id=request.user.id,
+        competition__id=prob_obj.competition.id,
+    ).all()[0]
+    ans_obj = Answer.objects.filter(
+        record__id=rec_obj.id,
+        problem__id=prob_obj.id,
+    ).all()[0]
+    if request.method != 'POST':
+        form = AnswerForm()
+        form.answer = ans_obj.user_answer
+    else:
+        form = AnswerForm(data=request.POST)
+        if form.is_valid():
+            if ans_obj.user_answer != form.cleaned_data['answer']:
+                if form.cleaned_data['answer'] == prob_obj.right_answer:
+                    rec_obj.score += prob_obj.score
+                    ans_obj.user_answer = form.cleaned_data['answer']
+                    ans_obj.save()
+                    rec_obj.save()
+                else:
+                    if ans_obj.user_answer == prob_obj.right_answer:
+                        rec_obj.score -= prob_obj.score
+                        ans_obj.user_answer = form.cleaned_data['answer']
+                        ans_obj.save()
+                        rec_obj.save()
     context = {
         'comp': prob_obj.competition,
         'prob': prob_obj,
         'registered': len(
             request.user.record_set.all().filter(competition__id=prob_obj.competition.id)
         ) == 1,
+        'form': form,
     }
     return render(request, 'competition/prob_detail.html', context)
 

@@ -12,6 +12,13 @@
     <h1>{{ prob.title }}</h1>
     <p>{{ prob.description|linebreaks }}</p>
 </div>
+<form method="POST" action="{% url 'prob_detail' prob.id %}" class="form">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button name="submit" class="btn btn-primary">Submit</button>
+        {% endbuttons %}
+</form>
 {% else %}
 <h1 class="header"><a href="{% url 'comp_detail' comp.id %}">{{ comp.title }}</a></h1>
 <h3 class="header">Please register to take part in this competition</h1>
