@@ -1,0 +1,19 @@
+{% extends "competition/base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}
+ - New competition
+{% endblock title %}
+
+{% block content %}
+<h3>Create your competition through only several forms!</h3>
+<form method="POST" action="{% url 'new_comp' %}" class="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <p>You can add problems before this competition starts.</p>
+    <p>Note that all the time is UTC time.</p>
+    {% buttons %}
+        <button name="submit" class="btn btn-primary">Submit</button>
+    {% endbuttons %}
+</form>
+{% endblock content %}

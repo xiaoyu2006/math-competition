@@ -26,5 +26,7 @@ urlpatterns = [
     path('competition/<int:comp_id>/', views.comp_detail, name='comp_detail'),
     path('problem/<int:prob_id>/', views.prob_detail, name='prob_detail'),
     path('competition/register/<int:comp_id>/', views.register_comp, name='register_comp'),
-    path('competition/<int:comp_id>/standings/', views.standings, name='standings')
+    path('competition/<int:comp_id>/standings/', views.standings, name='standings'),
+    path('competition/new/', views.new_comp, name='new_comp'),
+    path('competition/<int:comp_id>/new/', views.new_prob, name='new_prob'),
 ]

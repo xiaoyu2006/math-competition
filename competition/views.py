@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Answer, Competition, Record, User, Problem
 
-from .forms import AnswerForm
+from .forms import AnswerForm, CompForm
 
 
 
@@ -77,6 +77,7 @@ def comp_detail(request, comp_id):
         'probs': comp_obj.problem_set.all(),
         'registered': is_registered,
         'now': timezone.now(),
+        'user': request.user,
     }
     if is_registered:
         rec_obj = Record.objects.filter(
@@ -160,3 +161,28 @@ def standings(request, comp_id):
         'now': timezone.now(),
     }
     return render(request, 'competition/comp_standings.html', context)
+
+@login_required
+def new_comp(request):
+    if request.method != 'POST':
+        form = CompForm()
+    else:
+        form = CompForm(data=request.POST)
+        if form.is_valid():
+            new_comp = Competition.objects.create(
+                auther=request.user,
+                title=form.cleaned_data['title'],
+                description=form.cleaned_data['description'],
+                start_time=form.cleaned_data['start_time'],
+                end_time=form.cleaned_data['end_time'],
+            )
+            new_comp.save()
+            return HttpResponseRedirect(reverse('comp_detail', args=[new_comp.id]))
+    context = {
+        'form': form,
+    }
+    return render(request, 'competition/new_comp.html', context)
+
+@login_required
+def new_prob(request, comp_id):
+    pass
