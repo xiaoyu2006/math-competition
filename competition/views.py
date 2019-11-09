@@ -73,7 +73,7 @@ def prob_detail(request, prob_id):
         'comp': prob_obj.competition,
         'prob': prob_obj,
         'registered': len(
-            request.user.record_set.all().filter(competition__id=comp_id)
+            request.user.record_set.all().filter(competition__id=prob_obj.competition.id)
         ) == 1,
     }
     return render(request, 'competition/prob_detail.html', context)
