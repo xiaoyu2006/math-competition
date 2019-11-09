@@ -8,7 +8,7 @@
 {% block content %}
 <h1 class="header">{{ comp.title }}</h1>
 <h4 class="sub-header">
-    {{ comp.title|linebreaks }}
+    {{ comp.description|linebreaks }}
 </h4>
 <div class="container">
     <h5>Problems:</h5>
@@ -16,24 +16,32 @@
         <table class="table table-striped">
             <thead>
                 <th>Title</th>
+                <th>Score</th>
             </thead>
             <tbody>
                 {% for prob in probs %}
                 <tr>
                     <td><a href="{% url 'prob_detail' prob.id %}">{{ prob.title }}</a></td>
+                    <td>{{ prob.score }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    {% if comp.start_time < now %}
-    <p>Please register after the competition starts.</now>
-    {% elif comp.end_time > now %}
-    <p>The competition is ended.</p>
+    {% if comp.start_time > now %}
+        <p>Please register after the competition starts.</now>
+    {% elif comp.end_time < now %}
+        {% if not registered %}
+            <p>The competition is ended.</p>
+        {% else %}
+            <h2>
+                Your score is {{ record.score }} .
+            </h2>
+        {% endif %}
     {% else %}
-    {% if not registered %}
-    <a class="btn btn-primary" href="{% url 'register_comp' comp.id %}">Register</a>
-    {% endif %}
+        {% if not registered %}
+        <a class="btn btn-primary" href="{% url 'register_comp' comp.id %}">Register</a>
+        {% endif %}
     {% endif %}
 </div>
 {% endblock content %}

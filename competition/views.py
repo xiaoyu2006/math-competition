@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from datetime import datetime
+from django.utils import timezone
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -60,21 +60,28 @@ def log_in(request):
 def index(request):
     context = {
         'comps': Competition.objects.order_by('-end_time'),
-        'now': datetime.now(),
+        'now': timezone.now(),
     }
     return render(request, 'competition/index.html', context)
 
 @login_required
 def comp_detail(request, comp_id):
     comp_obj = get_object_or_404(Competition, id=comp_id)
+    is_registered = len(
+        request.user.record_set.all().filter(competition__id=comp_obj.id)
+    ) == 1
     context = {
         'comp': comp_obj,
         'probs': comp_obj.problem_set.all(),
-        'registered': len(
-            request.user.record_set.all().filter(competition__id=comp_id)
-        ) == 1,
-        'now': datetime.now(),
+        'registered': is_registered,
+        'now': timezone.now(),
     }
+    if is_registered:
+        rec_obj = Record.objects.filter(
+            user__id=request.user.id,
+            competition__id=comp_obj.id,
+        ).all()[0]
+        context['record'] = rec_obj
     return render(request, 'competition/comp_detail.html', context)
 
 @login_required
@@ -87,7 +94,7 @@ def prob_detail(request, prob_id):
         'comp': prob_obj.competition,
         'prob': prob_obj,
         'registered': is_registered,
-        'now': datetime.now(),
+        'now': timezone.now(),
     }
     if is_registered:
         rec_obj = Record.objects.filter(
@@ -103,6 +110,7 @@ def prob_detail(request, prob_id):
             form = AnswerForm(
                 initial={'answer': ans_obj.user_answer}
             )
+            context['answer'] = ans_obj
         else:
             form = AnswerForm(data=request.POST)
             if form.is_valid():

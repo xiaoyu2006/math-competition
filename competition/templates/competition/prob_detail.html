@@ -6,29 +6,37 @@
 {% endblock title %}
 
 {% block content %}
-{% if comp.start_time < now %}
-<p>Please register after the competition starts.</now>
-{% elif comp.end_time > now %}
-<p>The competition is ended.</p>
+{% if comp.start_time > now %}
+    <p>Please register after the competition starts.</now>
+{% elif comp.end_time < now %}
+    <h1 class="header"><a href="{% url 'comp_detail' comp.id %}">{{ comp.title }}</a></h1>
+    <div class="container">
+        <h1>{{ prob.title }}  ({{ prob.score }})</h1>
+        <p>{{ prob.description|linebreaks }}</p>
+    </div>
+    <h2>Answer: {{ prob.right_answer }}</h2>
+    {% if registered %}
+        <p>Your answer: {{ answer.user_answer }}</p>
+    {% endif %}
 {% else %}
-{% if registered %}
-<h1 class="header"><a href="{% url 'comp_detail' comp.id %}">{{ comp.title }}</a></h1>
-<div class="container">
-    <h1>{{ prob.title }}</h1>
-    <p>{{ prob.description|linebreaks }}</p>
-</div>
-<form method="POST" action="{% url 'prob_detail' prob.id %}" class="form">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        {% buttons %}
-            <button name="submit" class="btn btn-primary">Submit</button>
-        {% endbuttons %}
-</form>
-{% else %}
-<h1 class="header"><a href="{% url 'comp_detail' comp.id %}">{{ comp.title }}</a></h1>
-<h3 class="header">Please register to take part in this competition</h1>
-<a class="btn btn-primary" href="{% url 'register_comp' comp.id %}">Register</a>
-{% endif %}
+    {% if registered %}
+    <h1 class="header"><a href="{% url 'comp_detail' comp.id %}">{{ comp.title }}</a></h1>
+    <div class="container">
+        <h1>{{ prob.title }} ({{ prob.score }})</h1>
+        <p>{{ prob.description|linebreaks }}</p>
+    </div>
+    <form method="POST" action="{% url 'prob_detail' prob.id %}" class="form">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button name="submit" class="btn btn-primary">Submit</button>
+            {% endbuttons %}
+    </form>
+    {% else %}
+        <h1 class="header"><a href="{% url 'comp_detail' comp.id %}">{{ comp.title }}</a></h1>
+        <h3 class="header">Please register to take part in this competition</h1>
+        <a class="btn btn-primary" href="{% url 'register_comp' comp.id %}">Register</a>
+    {% endif %}
 {% endif %}
 
 {% endblock content %}
