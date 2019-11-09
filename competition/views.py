@@ -185,11 +185,11 @@ def new_comp(request):
 
 @login_required
 def new_prob(request, comp_id):
-    comp_obj = get_object_or_404(Competition, comp_id)
+    comp_obj = get_object_or_404(Competition, id=comp_id)
     if request.method != 'POST':
         form = ProbForm()
     else:
-        if request.user.id == comp_obj.user.id:
+        if request.user.id == comp_obj.auther.id:
             form = ProbForm(data=request.POST)
             if form.is_valid():
                 new_prob = Problem.objects.create(
