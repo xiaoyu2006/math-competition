@@ -59,7 +59,10 @@ def comp_detail(request, comp_id):
     comp_obj = get_object_or_404(Competition, id=comp_id)
     context = {
         'comp': comp_obj,
-        'probs': comp_obj.problem_set.all()
+        'probs': comp_obj.problem_set.all(),
+        'registered': len(
+            request.user.record_set.all().filter(competition__id=comp_id)
+        ) == 1,
     }
     return render(request, 'competition/comp_detail.html', context)
 

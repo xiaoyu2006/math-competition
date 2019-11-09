@@ -26,5 +26,8 @@
             </tbody>
         </table>
     </div>
+    {% if not registered %}
+    <a class="btn btn-primary" href="{% url 'register_comp' comp.id %}">Register</a>
+    {% endif %}
 </div>
 {% endblock content %}
