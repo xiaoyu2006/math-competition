@@ -2,3 +2,5 @@ Django==2.2.7
 django-bootstrap3==11.1.0
 pytz==2019.3
 sqlparse==0.3.0
+gunicorn==20.0.0
+whitenoise==2.0.6
