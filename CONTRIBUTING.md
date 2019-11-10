@@ -1,8 +1,9 @@
 # Contributing
+## Contribute code
 ### _If you know django, skip this part._
 Don't know Django or how to program? Read the docs:
  - [Python(en)](https://docs.python.org/3/tutorial/index.html), [Python(zh-hans)](https://docs.python.org/zh-cn/3/tutorial/index.html)
-  - [Django(en)](https://docs.djangoproject.com/en/2.2/intro/), [Django(zh-hans)](https://docs.djangoproject.com/zh-hans/2.2/intro/).
+  - [Django(en)](https://docs.djangoproject.com/en/2.2/intro/), [Django(zh-hans)](https://docs.djangoproject.com/zh-hans/2.2/intro/)
 
 
 ### _If you know Git and GitHub, skip this part._
@@ -45,3 +46,6 @@ Time to make your first `Pull Request`!
 Click the `Compare & pull request` button, review your changes and write pull request messages.
 
 If I'm satisfied, I'll merge it into my `master branch` from your `master branch`.(Not always `master`) You've done your contributing!
+
+## Report issue
+You can also report issue [here](https://github.com/xiaoyu2006/math-competition/issues).
