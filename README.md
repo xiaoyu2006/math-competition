@@ -5,7 +5,7 @@ The fact is, a lot of Math competitions in China is **banned** by the educationa
 
 
 ### Note
-To keep the `master branch` clean, all the deployments are put into branches `deploy-to-heroku-<SHA1-of-the commit-to-deploy>`. You don't need to look at them,
+To keep the `master branch` clean, all the deployments are put into branches `deploy-to-heroku-<SHA1-of-the-commit-to-deploy>`. You don't need to look at them,
 
 ### Contribute
 Anyone can contribute. Read the [contributing guildline](https://github.com/xiaoyu2006/math-competition/blob/master/CONTRIBUTING.md) or [report your issue](https://github.com/xiaoyu2006/math-competition/issues).
