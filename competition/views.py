@@ -186,28 +186,37 @@ def new_comp(request):
 @login_required
 def new_prob(request, comp_id):
     comp_obj = get_object_or_404(Competition, id=comp_id)
-    if request.method != 'POST':
-        form = ProbForm()
-    else:
-        if request.user.id == comp_obj.auther.id:
-            form = ProbForm(data=request.POST)
-            if form.is_valid():
-                new_prob = Problem.objects.create(
-                    competition=comp_obj,
-                    title=form.cleaned_data['title'],
-                    description=form.cleaned_data['description'],
-                    score=form.cleaned_data['score'],
-                    right_answer=form.cleaned_data['answer'],
+    if comp_obj.start_time > timezone.now():
+        if request.method != 'POST':
+            if request.user.id != comp_obj.auther.id:
+                return HttpResponseForbidden(
+                    'Sorry but you have no access to add a problem into this competition.'
                 )
-                new_prob.save()
-                return HttpResponseRedirect(reverse('comp_detail', args=[comp_obj.id]))
+            form = ProbForm()
         else:
-            return HttpResponseForbidden(
-                "Sorry but you have no access to add a problem into this competition."
-            )
-    context = {
-        'comp': comp_obj,
-        'user': request.user,
-        'form': form,
-    }
-    return render(request, 'competition/new_prob.html', context)
+            if request.user.id == comp_obj.auther.id:
+                form = ProbForm(data=request.POST)
+                if form.is_valid():
+                    new_prob = Problem.objects.create(
+                        competition=comp_obj,
+                        title=form.cleaned_data['title'],
+                        description=form.cleaned_data['description'],
+                        score=form.cleaned_data['score'],
+                        right_answer=form.cleaned_data['answer'],
+                    )
+                    new_prob.save()
+                    return HttpResponseRedirect(reverse('comp_detail', args=[comp_obj.id]))
+            else:
+                return HttpResponseForbidden(
+                    "Sorry but you have no access to add a problem into this competition."
+                )
+        context = {
+            'comp': comp_obj,
+            'user': request.user,
+            'form': form,
+        }
+        return render(request, 'competition/new_prob.html', context)
+    else:
+        return HttpResponseForbidden(
+            'Sorry but the competition has started so that you can\'t add more problems.'
+        )
