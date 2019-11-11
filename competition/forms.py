@@ -13,6 +13,6 @@ class CompForm(forms.Form):
 
 class ProbForm(forms.Form):
     title = forms.CharField(label='Title', max_length=100)
-    description = forms.CharField(label='Description', max_length=1000, widget=forms.Textarea(attrs={'rows': 30}))
+    description = forms.CharField(label='Description', max_length=1000, widget=forms.Textarea(attrs={'rows': 10}))
     answer = forms.CharField(label='Answer', max_length=100)
     score = forms.FloatField(label_suffix='Score')
