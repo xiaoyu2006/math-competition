@@ -10,6 +10,14 @@
 <form method="POST" action="{% url 'new_prob' comp.id %}" class="form">
     {% csrf_token %}
     {% bootstrap_form form %}
+    <p>
+        Note that the description part is rendered as LaTeX, so you can enter Math equations here.
+        <br>
+        If you don't know LateX, try <a href="https://www.codecogs.com/latex/eqneditor.php?lang=zh-cn" target="_blank">this</a> online editor and paste your code in <code>\$ [Write your Math equation here] \$</code>.
+        <br>
+        For example, you can write like <code>Calculate \$ sqrt{-1} \$</code>.
+    </p>
+    </p>
     {% buttons %}
         <button name="submit" class="btn btn-primary">Submit</button>
     {% endbuttons %}

@@ -1,5 +1,6 @@
 {% extends "competition/base.html" %}
 {% load bootstrap3 %}
+{% load latexify %}
 
 {% block title %}
  - {{ prob.title }}
@@ -18,7 +19,7 @@
     <h1 class="header"><a href="{% url 'comp_detail' comp.id %}">{{ comp.title }}</a></h1>
     <div class="container">
         <h1>{{ prob.title }}  ({{ prob.score }})</h1>
-        <p>{{ prob.description|linebreaks }}</p>
+        <p>{% latexify prob.description|linebreaks parse_math=True %}</p>
     </div>
     <h2>Answer: {{ prob.right_answer }}</h2>
     {% if registered %}
@@ -28,8 +29,8 @@
     {% if registered %}
     <h1 class="header"><a href="{% url 'comp_detail' comp.id %}">{{ comp.title }}</a></h1>
     <div class="container">
-        <h1>{{ prob.title }} ({{ prob.score }})</h1>
-        <p>{{ prob.description|linebreaks }}</p>
+        <h2>{{ prob.title }} ({{ prob.score }})</h2>
+        <p>{% latexify prob.description|linebreaks parse_math=True %}</p>
     </div>
     <form method="POST" action="{% url 'prob_detail' prob.id %}" class="form">
             {% csrf_token %}

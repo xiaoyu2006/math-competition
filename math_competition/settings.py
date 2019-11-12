@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'competition',
     'bootstrap3',
+    'django-latexify.latexify',
 ]
 
 MIDDLEWARE = [
