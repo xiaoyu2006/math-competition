@@ -1,0 +1,3 @@
+[submodule "django-latexify"]
+	path = django-latexify
+	url = https://github.com/ammsa/django-latexify.git
