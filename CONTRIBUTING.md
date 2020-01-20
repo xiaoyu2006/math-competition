@@ -13,16 +13,16 @@ After that, sign in GiHhub.
 
 
 ### _If you know command-line, skip this part._
-GitHub is easy to use. To contribute, you may want to `folk this responsitory`. (Do these steps after installing Git and sign in GitHub)
+GitHub is easy to use. To contribute, you may want to `fork this responsitory`. (Do these steps after installing Git and sign in GitHub)
 ```
-Click the folk button on the top.
+Click the fork button on the top.
 ```
 ```bash
 $ git clone https://github.com/<your-username>/math-competition.git
 ```
 (If you use Windows, run the command above in Git Bash. It should be installed with Git.)
 
-After doing some editing, run this (Do this after installing Python3 and make sure Python is in PATH.)
+After doing some editing, run this (Do this after installing Python3 and make sure Python is in $PATH.)
 ```bash
 $ pip install -r requirements
 $ python manage.py runserver
