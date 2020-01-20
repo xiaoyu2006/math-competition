@@ -7,7 +7,7 @@ Don't know Django or how to program? Read the docs:
 
 
 ### _If you know Git and GitHub, skip this part._
-Don't know how to user Git? Read the docs:
+Don't know how to use Git? Read the docs:
   - [Git(en)](https://git-scm.com/book/en/v2), [Git(zh-hans)](https://git-scm.com/book/zh/v2)
 After that, sign in GiHhub.
 
